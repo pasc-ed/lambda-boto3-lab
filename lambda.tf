@@ -14,4 +14,11 @@ resource "aws_lambda_function" "lab_lambda_image_rekognition" {
   source_code_hash = filebase64sha256(data.archive_file.python_script_file.output_path)
 
   runtime = "python3.8"
+  timeout = 10
+
+  environment {
+    variables = {
+      "METADATA_TABLE" = aws_dynamodb_table.lambda_image_rekognition.name
+    }
+  }
 }
